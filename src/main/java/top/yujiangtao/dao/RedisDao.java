@@ -37,7 +37,6 @@ public class RedisDao {
             try {
                 assert statement != null;
                 statement.close();
-                mariadbConn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -67,7 +66,6 @@ public class RedisDao {
                 assert resultSet != null;
                 resultSet.close();
                 statement.close();
-                mariadbConn.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

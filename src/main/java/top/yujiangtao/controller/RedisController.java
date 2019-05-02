@@ -1,5 +1,6 @@
 package top.yujiangtao.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.beanutils.BeanUtils;
 import top.yujiangtao.dao.RedisDao;
 import top.yujiangtao.model.User;
@@ -48,9 +49,9 @@ public class RedisController extends HttpServlet {
                 redisDao.insertUser(user);
                 break;
             case "get":
-                String redisById = RedisUtils.findRedisById(id);
-                if (null != redisById) {
-                    resp.getWriter().write(redisById);
+                Map<String, String> redisById = RedisUtils.findRedisById(id);
+                if (redisById.size() > 0) {
+                    resp.getWriter().write(JSONObject.toJSONString(redisById));
                 } else {
                     User userById = redisDao.findUserById(id);
                     if (null != userById) {

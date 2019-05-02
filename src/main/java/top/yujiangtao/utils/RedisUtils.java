@@ -5,13 +5,16 @@ import io.lettuce.core.RedisClient;
 import io.lettuce.core.RedisURI;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
+import org.apache.commons.beanutils.BeanUtils;
 import top.yujiangtao.model.User;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.Duration;
+import java.util.Map;
 import java.util.Properties;
 
 /**
@@ -74,10 +77,10 @@ public class RedisUtils {
         return commands;
     }
 
-    public static String findRedisById(String id) {
+    public static Map<String, String> findRedisById(String id) {
         String uid = "u:info:id:" + id;
 
-        return commands.get(uid);
+        return commands.hgetall(uid);
     }
 
     public static String redisConnectionClose() {
@@ -110,10 +113,20 @@ public class RedisUtils {
 
     public static String addUserToRedis(User userById) {
         String key = KEY_PREFIX + userById.getId();
-        String value = beanToJSON(userById);
+        // String value = beanToJSON(userById);
+        Map<String, String> value = null;
+        try {
+            value = BeanUtils.describe(userById);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        if (null != value.get("class")) {
+            value.remove("class");
+        }
 
         // 此处也能用setex来设置存活时间
-        return commands.set(key, value);
+        // return commands.set(key, value);
+        return commands.hmset(key, value);
     }
 
     private static String beanToJSON(User user) {

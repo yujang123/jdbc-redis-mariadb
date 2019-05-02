@@ -21,7 +21,7 @@ public class TestA {
 
     @Test
     public void s() {
-        RedisClient redisClient = RedisClient.create("redis://192.168.74.128:6379/0");
+        RedisClient redisClient = RedisClient.create("redis://root@192.168.74.128:6379/0");
         StatefulRedisConnection<String, String> connection = redisClient.connect();
         RedisCommands<String, String> syncCommands = connection.sync();
         System.out.println(syncCommands.ping());
