@@ -26,7 +26,7 @@ public class RedisController extends HttpServlet {
 
     private static final long serialVersionUID = -2188282810937997781L;
 
-    private static RedisDao redisDao = new RedisDao();
+    private static final RedisDao REDIS_DAO = new RedisDao();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,14 +46,14 @@ public class RedisController extends HttpServlet {
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
-                redisDao.insertUser(user);
+                REDIS_DAO.insertUser(user);
                 break;
             case "get":
                 Map<String, String> redisById = RedisUtils.findRedisById(id);
                 if (redisById.size() > 0) {
                     resp.getWriter().write(JSONObject.toJSONString(redisById));
                 } else {
-                    User userById = redisDao.findUserById(id);
+                    User userById = REDIS_DAO.findUserById(id);
                     if (null != userById) {
                         String result = RedisUtils.addUserToRedis(userById);
                         resp.getWriter().write(result);

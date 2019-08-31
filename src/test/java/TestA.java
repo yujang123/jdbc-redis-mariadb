@@ -1,15 +1,3 @@
-import io.lettuce.core.RedisClient;
-import io.lettuce.core.api.StatefulRedisConnection;
-import io.lettuce.core.api.sync.RedisCommands;
-import org.junit.Test;
-import top.yujiangtao.dao.RedisDao;
-import top.yujiangtao.model.User;
-import top.yujiangtao.utils.RedisUtils;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 /**
  * Created by IntelliJ IDEA.
  *
@@ -19,9 +7,9 @@ import java.sql.SQLException;
  **/
 public class TestA {
 
-    @Test
+    /*@Test
     public void s() {
-        RedisClient redisClient = RedisClient.create("redis://root@192.168.74.128:6379/0");
+        RedisClient redisClient = RedisClient.create("redis://root@192.168.33.128:6379/0");
         StatefulRedisConnection<String, String> connection = redisClient.connect();
         RedisCommands<String, String> syncCommands = connection.sync();
         System.out.println(syncCommands.ping());
@@ -59,5 +47,5 @@ public class TestA {
         RedisDao rd = new RedisDao();
         User user = rd.findUserById("1");
         System.out.println(user);
-    }
+    }*/
 }

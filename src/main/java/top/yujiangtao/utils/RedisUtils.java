@@ -42,9 +42,9 @@ public class RedisUtils {
 
             // Redis配置
             String redisHost = REDIS_CONFIG.getProperty("redis.host");
-            int redisPort = Integer.valueOf(REDIS_CONFIG.getProperty("redis.port"));
-            long redisTimeout = Long.valueOf(REDIS_CONFIG.getProperty("redis.timeout"));
-            int redisDatabase = Integer.valueOf(REDIS_CONFIG.getProperty("redis.database"));
+            int redisPort = Integer.parseInt(REDIS_CONFIG.getProperty("redis.port"));
+            long redisTimeout = Long.parseLong(REDIS_CONFIG.getProperty("redis.timeout"));
+            int redisDatabase = Integer.parseInt(REDIS_CONFIG.getProperty("redis.database"));
             String redisPassword = REDIS_CONFIG.getProperty("redis.pwd");
 
             // mariadb配置
@@ -96,7 +96,7 @@ public class RedisUtils {
     public static String redisClientShutdown() {
         String result = "not client";
         if (null != redisClient) {
-            redisClientShutdown();
+            commands.shutdown(true);
             result = "client shutdown";
         }
 
@@ -120,6 +120,7 @@ public class RedisUtils {
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
+        // remove BeanUtils解析过来的map中的class字段
         if (null != value.get("class")) {
             value.remove("class");
         }
@@ -129,7 +130,7 @@ public class RedisUtils {
         return commands.hmset(key, value);
     }
 
-    private static String beanToJSON(User user) {
+    private static String beanToJson(User user) {
         return JSONObject.toJSONString(user);
     }
 }
